@@ -47,8 +47,7 @@ def get_token_auth_header():
             'description': 'Authorization header must be bearer token.'
         }, 401)
 
-    token = parts[1]
-    return token
+    return parts[1]
 
 
 def verify_decode_jwt(token):
@@ -73,15 +72,14 @@ def verify_decode_jwt(token):
             }
     if rsa_key:
         try:
-            payload = jwt.decode(
+            return jwt.decode(
                 token,
                 rsa_key,
                 algorithms=ALGORITHMS,
                 audience=API_AUDIENCE,
-                issuer='https://' + AUTH0_DOMAIN + '/'
+                issuer=f'https://{AUTH0_DOMAIN}/',
             )
 
-            return payload
 
         except jwt.ExpiredSignatureError:
             raise AuthError({
